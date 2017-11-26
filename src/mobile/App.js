@@ -9,8 +9,11 @@ import {
   Platform,
   StyleSheet,
   Text,
-  View
+  View,
+  Button
 } from 'react-native';
+import { connect } from "react-redux"
+import { add, substract } from "../redux/action"
 
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' +
@@ -19,19 +22,22 @@ const instructions = Platform.select({
     'Shake or press menu button for dev menu',
 });
 
-export default class App extends Component<{}> {
+class App extends Component<{}> {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
+        <Text style={styles.welcome}>Number</Text>
         <Text style={styles.instructions}>
-          To get started, edit App.js
+          { this.props.number }
         </Text>
-        <Text style={styles.instructions}>
-          {instructions}
-        </Text>
+        <Button
+          title="Add"
+          onPress={this.props.add}
+        />
+        <Button
+          title="Substract"
+          onPress={this.props.substract}
+        />
       </View>
     );
   }
@@ -55,3 +61,8 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
 });
+
+export default connect(
+  state => ({number: state.number}),
+  { add, substract }
+)(App)
